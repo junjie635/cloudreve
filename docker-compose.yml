@@ -15,8 +15,8 @@ services:
     volumes:
       - ./bk/data:/data
       - ./bk/cloudreve/uploads:/cloudreve/uploads
-      - ./bk/cloudreve/conf.ini:/cloudreve/conf.ini
-      - ./bk/cloudreve/cloudreve.db:/cloudreve/cloudreve.db
+      # - ./bk/cloudreve/conf.ini:/cloudreve/conf.ini
+      - ./bk/cloudreve/:/cloudreve/
       - ./bk/cloudreve/avatar:/cloudreve/avatar
     depends_on:
       - aria2
