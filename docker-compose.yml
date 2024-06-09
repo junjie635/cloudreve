@@ -1,0 +1,33 @@
+services:
+  redis:
+    container_name: cloudreve_redis
+    image: bitnami/redis:latest
+    restart: unless-stopped
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - ./bk/redis_data:/bitnami/redis/data
+  cloudreve:
+    image: cloudreve
+    container_name: cloudreve
+    ports:
+      - 5212:5212
+    volumes:
+      - ./bk/data:/data
+      - ./bk/cloudreve/uploads:/cloudreve/uploads
+      - ./bk/cloudreve/conf.ini:/cloudreve/conf.ini
+      - ./bk/cloudreve/cloudreve.db:/cloudreve/cloudreve.db
+      - ./bk/cloudreve/avatar:/cloudreve/avatar
+    depends_on:
+      - aria2
+    restart: unless-stopped
+  aria2:
+    container_name: aria2
+    image: p3terx/aria2-pro # third party image, please keep notice what you are doing
+    restart: unless-stopped
+    environment:
+      - RPC_SECRET=your_aria_rpc_token # aria rpc token, customize your own
+      - RPC_PORT=6800
+    volumes:
+      - ./bk/aria2/config:/config
+      - ./bk/data:/data

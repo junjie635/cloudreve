@@ -2,7 +2,7 @@ FROM node:latest as frontend
 
 WORKDIR /app
 
-COPY ./assets/ ./
+COPY ./Cloudreve/assets/ ./
 
 RUN yarn install && yarn run build && apt update && apt install zip && zip -r assets.zip build/
 
@@ -10,7 +10,7 @@ RUN yarn install && yarn run build && apt update && apt install zip && zip -r as
 FROM golang:1.22.1 as backend
 
 WORKDIR /app
-COPY . .
+COPY ./Cloudreve/ ./
 COPY --from=frontend /app/assets.zip .
 RUN go env -w GOPROXY=https://goproxy.cn,direct && \
     go build -a -o cloudreve
